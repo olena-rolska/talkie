@@ -1,0 +1,58 @@
+{
+  "options": {
+    "ver": "1.0.0",
+    "inspectConflicts": false,
+    "semicolons": true,
+    "freeze": [],
+    "ts": false
+  },
+  "app": {
+    "environmentsAllowingSeedData": "",
+    "seedData": false,
+    "name": "registration-backend",
+    "description": "Project registration-backend",
+    "src": "src",
+    "packager": "npm@>= 3.0.0",
+    "providers": [
+      "rest"
+    ]
+  },
+  "services": {
+    "users": {
+      "name": "users",
+      "nameSingular": "user",
+      "subFolder": "",
+      "fileName": "users",
+      "adapter": "sequelize",
+      "path": "/users",
+      "isAuthEntity": true,
+      "requiresAuth": true,
+      "graphql": false
+    },
+    "messages": {
+      "name": "messages",
+      "nameSingular": "message",
+      "subFolder": "",
+      "fileName": "messages",
+      "adapter": "sequelize",
+      "path": "/messages",
+      "isAuthEntity": false,
+      "requiresAuth": true,
+      "graphql": false
+    }
+  },
+  "hooks": {},
+  "authentication": {
+    "strategies": [
+      "local"
+    ],
+    "entity": "users"
+  },
+  "connections": {
+    "sequelize": {
+      "database": "sqlite",
+      "adapter": "sequelize",
+      "connectionString": "sqlite://registration_backend.sqlite"
+    }
+  }
+}

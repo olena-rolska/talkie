@@ -1,0 +1,39 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "tests": {
+    "environmentsAllowingSeedData": [
+      ""
+    ]
+  },
+  "authentication": {
+    "secret": "3868a3003e7684741b294a78a5bd5183054163a90e5f015d36994517699e4144f2911c12d95e66a24351b870eff65f13ea155d8e16236adb662ced392571efd5bed2ca9569fc4fe7696ebf634068e61bdb422924984851bc4b183cd5192552a4392ca214b35a21dfe15b422a93497e55e8941cb22ff2a55928bea67744d4a5b7e32949f6055a13cf79ae62c1518c341b6fc9f78d66ac3e2f5ebfaa33832bf437f098c1df3097a49a0cc17265b5967a34c10af6e0aa2d5ac50ffecd71b300e63091673c08339e3b66571630d2d59449cf22e91a419c628739540244cfcf452d3d03b912eea35655940cb69cadacf1c48d4f6da136f9e7c71954cd6c6f7cdf10af",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "sqlite": "sqlite://registration_backend.sqlite"
+}
