@@ -8,7 +8,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Image from '../images/speech-bubble.png';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
@@ -16,10 +15,6 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 50px)',
     width: '100%',
     maxWidth: '100%',
-    backgroundImage: `url(${Image})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
     display: 'flex',
     justifyContent: 'center',
     },
@@ -41,11 +36,12 @@ const useStyles = makeStyles({
   }
 });
 
+
 const Message = ({match}) => {
   const classes = useStyles();
   const [cookies] = useCookies(['token']);
-  let [message, setMessage] = React.useState([]);
-  // let messageId = match.params.id;
+  let [message, setMessage] = useState([]);
+  let messageId = match.params.id;
 
 
   const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -59,16 +55,18 @@ const Message = ({match}) => {
     return string;
   }
 
-  // useEffect(()=> {
-  //   axios.get ('http://localhost:3030/messages/' + messageId,{
-  // 'headers': {
-  //   Authorization: cookies.token,
-  // }})
-  // .then(response => {
-  //   console.log(response.data)
-  //   setMessage(response.data);
-  // })
-  // }, [])
+  useEffect(()=> {
+      axios.get ('http://localhost:3030/messages/' + messageId,{
+    'headers': {
+      
+    Authorization: cookies.token,
+  }})
+  .then(response => {
+    console.log(response.data)
+    console.log(messageId)
+    setMessage(response.data);
+    })
+  }, [])
 
   return (
     <Container component="main" className={classes.root}>
@@ -77,7 +75,7 @@ const Message = ({match}) => {
       <CardActionArea key={message.id} >
         <CardContent className={classes.content}>
           <Typography gutterBottom variant="subtitle1" component="h2">
-            Message #{message.id}
+            talk #{message.id}
           </Typography>
           <Typography variant="h5" component="h2">
             "{message.text}"

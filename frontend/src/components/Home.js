@@ -1,7 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -18,15 +17,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Main = () => {
+const Home = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.header}>
-      <h1>Talkie</h1>
-      <Button size="small" component={Link} to={`/messages/`}/>Go to messages<Button/>
+      <h1>Welcome to Talkie</h1>
+      <h2>Before you gonna talk, you need to choose</h2>
+      <RouterLink href="#" variant="body2" to="/signup/">
+        Sign up
+      </RouterLink>
+      <RouterLink href="#" variant="body2" to="/signin/">
+        Sign in
+      </RouterLink>
     </div>
   )
 }
 
-export default Main;
+export default Home;
