@@ -7,8 +7,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useCookies } from 'react-cookie';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Bg from '../images/bg.png';
+import Back from '../images/back.svg'
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
@@ -17,24 +22,43 @@ import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: 'calc(100vh - 50px)',
+  '@global': {
+    body: {
+      backgroundColor: 'teal',
+    },
   },
-  image: {
-    backgroundImage: `url(${Image})`,
+  main: {
+    width: '100%',
+    height: '100hv',
+    padding: 0,
+    backgroundImage: `url(${Bg})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundSize: 'fixed',
+  },
+  back: {
+    marginRight: '100%',
+  },
+  backIcon: {
+    width: '1.5em',
+  },
+  block: {
+    width: '80%',
+    height: '100hv',
+    margin: 'auto',
+    textAlign: 'center',
+    backgroundColor: 'white',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    marginTop: theme.spacing(10),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: 'teal',
   },
   form: {
     width: '100%',
@@ -52,7 +76,7 @@ const SignIn = () => {
   let [helperText, setHelperText] = useState('');
   let [error, setError] = useState(false);
   const [cookies, setCookie] = useCookies([]);
-  const [toHome, setToHome] = useState(false);
+  const [toMessages, setToMessages] = useState(false);
 
   const handleMailInputChange = (event) => {
     setMail(event.target.value);
@@ -79,7 +103,7 @@ const SignIn = () => {
     if (response.status === 201) {
       setCookie('token', response.data.accessToken, { path: '/' });
       console.log('redirecting')
-      setTimeout(() => setToHome(true), 500);
+      setTimeout(() => setToMessages(true), 500);
     }
   })
   .catch(error => {
@@ -90,66 +114,72 @@ const SignIn = () => {
   }
 
   return (
-    <>
-    {toHome ? <Redirect to="/messages/" /> : null}
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <div className={classes.form} noValidate>
-            <TextField
-              onChange={handleMailInputChange}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoFocus
-            />
-            <TextField
-              onChange={handlePassInputChange}
-              error = {error}
-              helperText = {helperText}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-            />
-            <Button
-              onClick={submitButton}
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item>
-                <RouterLink href="#" variant="body2" to="/signup/">
-                  {"Don't have an account? Sign Up"}
-                </RouterLink>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
-      </Grid>
-    </Grid>
-    </>
+    <div className={classes.main}>
+      <RouterLink to='/' className={classes.link}>
+        <CardHeader className={classes.back}
+          action={
+            <IconButton>
+              <CardMedia className={classes.backIcon} component="img" src={Back} title="Back"/>
+            </IconButton>
+          }/>
+      </RouterLink>
+      <section className={classes.block}>
+        <Container component="main" maxWidth="xs" className={classes.root}>
+          <CssBaseline />
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <div className={classes.form} noValidate>
+                <TextField
+                  onChange={handleMailInputChange}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoFocus
+                />
+                <TextField
+                  onChange={handlePassInputChange}
+                  error = {error}
+                  helperText = {helperText}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                />
+                <Button
+                  onClick={submitButton}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className={classes.submit}
+                >
+                  Sign In
+                </Button>
+                {toMessages ? <Redirect to="/messages/" /> : null}
+                <Grid container>
+                  <Grid item>
+                    <RouterLink href="#" variant="body2" to="/signup/">
+                      {"Don't have an account? Sign Up"}
+                    </RouterLink>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+        </Container>
+      </section>
+    </div>
   );
 }
 

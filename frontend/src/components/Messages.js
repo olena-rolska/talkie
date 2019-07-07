@@ -4,61 +4,65 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
-import AddIcon from '@material-ui/icons/Add';
+import Bg from '../images/bg.png';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: 'calc(100vh - 50px)',
-    width : '100%',
-    maxWidth: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  '@global': {
+    body: {
+      backgroundColor: 'teal',
+    },
+  },
+  main: {
+    width: '100%',
+    height: '100hv',
     padding: 0,
-    paddingTop: 50,
+    backgroundImage: `url(${Bg})`,
+    backgroundSize: 'fixed',
   },
   fab: {
     position: 'absolute',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
+    top: theme.spacing(2),
+    right: theme.spacing(2),
+    textDecoration: "none",
+    color: 'black',
+  },
+  link: {
+    textDecoration: "none",
+    color: 'black',
   },
   cards: {
     width : '80%',
     display: 'flex',
   },
   card:{
-    maxWidth: '100%',
-    width: '25%',
-    minWidth: 250,
-    margin:theme.spacing(2),
+    maxWidth: '40%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '4%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  link:{
-    textDecoration: "none",
-    color: 'black',
+    justifyContent: 'space-between',
   },
   action : {
       display: 'flex',
-      justifyContent: "flex-end",
+      justifyContent: "space-around",
   },
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(5),
+    fontSize: '1em',
+    background: 'white',
 
   },
   button_s: {
@@ -151,7 +155,6 @@ const Message = () => {
     Authorization: cookies.token,
   }})
   .then(response => {
-    alert('Message deleted');
     setTimeout(refreshMessages(), 3000);
     })
   }
@@ -174,11 +177,8 @@ const Message = () => {
   }
 
   return (
-    <Container component="main" className={classes.root}>
-      <CssBaseline />
-      <Fab color="primary" aria-label="Add" className={classes.fab} onClick={handleOpen}>
-        <AddIcon />
-      </Fab>
+    <div className={classes.main}>
+      <RouterLink href="#" variant="body2" className={classes.fab} onClick={handleOpen}><Button className={classes.button} size='large' color='grey'>Talk</Button></RouterLink>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -186,12 +186,10 @@ const Message = () => {
         onClose={handleClose}
         >
         <div className={classes.paper}>
-          <Fab size="small" color="secondary" aria-label="Close" className={classes.margin} onClick={handleClose}>
-            <Icon className={classes.leftIcon}>close</Icon>
+          <Fab size="small" color="teal" aria-label="Close" className={classes.margin} onClick={handleClose}>
+            X
           </Fab>
-          <Typography variant="h6" id="modal-title">
-            Please type your message
-          </Typography>
+          <Typography variant="h6" id="modal-title"> What do you think about?</Typography>
           <TextField
             label="Message"
             multiline
@@ -202,10 +200,7 @@ const Message = () => {
             margin="normal"
             id="simple-modal-description"
             />
-          <Button variant="contained" color="primary" className={classes.button_s} onClick={createMessage}>
-            Send
-            <Icon className={classes.rightIcon}>send</Icon>
-          </Button>
+          <Button variant="contained" color="primary" className={classes.button_s} onClick={createMessage}>➤</Button>
         </div>
       </Modal>
 
@@ -214,25 +209,23 @@ const Message = () => {
         <Card className={classes.card} key={i.id}>
           <RouterLink to ={{pathname:`/message/${i.id}`}} className={classes.link}>
             <CardActionArea>
-              <div className='media'>
-                <Typography gutterBottom variant="subtitle1" component="h2">
-                  Message
-                </Typography>
-              </div>
               <CardContent  className={classes.content}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  "{i.text}"
+                  - {i.text}
                   </Typography>
                   <Typography gutterBottom variant="body1" component="h2">
-                    Created by {i.user.nickname}
+                    {i.user.nickname}
                   </Typography>
                   <Typography gutterBottom variant="body1" component="h2">
-                    on {createTime(i.createdAt)}
+                    {createTime(i.createdAt)}
                   </Typography>
-            </CardContent>
-        </CardActionArea>
-        </RouterLink>
+              </CardContent>
+            </CardActionArea>
+          </RouterLink>
           <CardActions className={classes.action} >
+            <IconButton aria-label="Add to favorites" aria-label="Show more">
+              <FavoriteIcon />
+            </IconButton>
             <IconButton
             aria-label="Delete"
             name={i.id}
@@ -244,7 +237,7 @@ const Message = () => {
       </Card>
       ))}
     </div>
-  </Container>
+  </div>
   );
 }
 
