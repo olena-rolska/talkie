@@ -22,14 +22,15 @@ const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
       backgroundColor: 'teal',
+      backgroundImage: `url(${Bg})`,
+      backgroundSize: 'fixed',
+      backgroundRepeat: 'no-repeat',
     },
   },
   main: {
     width: '100%',
     height: '100hv',
     padding: 0,
-    backgroundImage: `url(${Bg})`,
-    backgroundSize: 'fixed',
   },
   fab: {
     position: 'absolute',
@@ -46,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     width : '80%',
     display: 'flex',
   },
-  card:{
-    maxWidth: '40%',
+  card: {
+    maxWidth: '30%',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '4%',
@@ -55,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  action : {
+  action: {
       display: 'flex',
       justifyContent: "space-around",
   },
@@ -63,7 +64,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(5),
     fontSize: '1em',
     background: 'white',
-
   },
   button_s: {
     margin: theme.spacing(1),
@@ -94,6 +94,13 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     height: 150,
+    textAlign: 'center',
+  },
+  info: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingTop: '12em',
   }
 }));
 
@@ -179,30 +186,31 @@ const Message = () => {
   return (
     <div className={classes.main}>
       <RouterLink href="#" variant="body2" className={classes.fab} onClick={handleOpen}><Button className={classes.button} size='large' color='grey'>Talk</Button></RouterLink>
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
-        >
-        <div className={classes.paper}>
-          <Fab size="small" color="teal" aria-label="Close" className={classes.margin} onClick={handleClose}>
-            X
-          </Fab>
-          <Typography variant="h6" id="modal-title"> What do you think about?</Typography>
-          <TextField
-            label="Message"
-            multiline
-            rowsMax="4"
-            value={values.message}
-            onChange={handleChange('message')}
-            className={classes.textField}
-            margin="normal"
-            id="simple-modal-description"
-            />
-          <Button variant="contained" color="primary" className={classes.button_s} onClick={createMessage}>➤</Button>
-        </div>
-      </Modal>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={open}
+          onClose={handleClose}
+          >
+          <div className={classes.paper}>
+            <Fab size="small" color="teal" aria-label="Close" className={classes.margin} onClick={handleClose}>
+              X
+            </Fab>
+            <Typography variant="h6" id="modal-title"> What do you think about?</Typography>
+            <TextField
+              label="Message"
+              multiline
+              rowsMax="4"
+              value={values.message}
+              onChange={handleChange('message')}
+              className={classes.textField}
+              margin="normal"
+              id="simple-modal-description"
+              autoFocus
+              />
+            <Button variant="contained" color="primary" className={classes.button_s} onClick={createMessage}>➤</Button>
+          </div>
+        </Modal>
 
       <div className = "cards">
         {users.map(i => (
@@ -213,12 +221,14 @@ const Message = () => {
                 <Typography gutterBottom variant="h5" component="h2">
                   - {i.text}
                   </Typography>
-                  <Typography gutterBottom variant="body1" component="h2">
-                    {i.user.nickname}
-                  </Typography>
-                  <Typography gutterBottom variant="body1" component="h2">
-                    {createTime(i.createdAt)}
-                  </Typography>
+                  <CardContent className={classes.info}>
+                    <Typography gutterBottom variant="body1" component="h2">
+                      by {i.user.nickname}
+                    </Typography>
+                    <Typography gutterBottom variant="body1" component="h2">
+                      {createTime(i.createdAt)}
+                    </Typography>
+                  </CardContent>
               </CardContent>
             </CardActionArea>
           </RouterLink>
