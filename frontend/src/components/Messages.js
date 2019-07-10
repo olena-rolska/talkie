@@ -104,6 +104,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+/*
+{
+  "moderator": {},
+  "title": "string",
+  "description": "string",
+  "image_url": "string",
+  "max_guest_limit": 0,
+  "date_created": "string",
+  "start_date": "string"
+}
+*/
+
+
 const Message = () => {
   const classes = useStyles();
   const [cookies] = useCookies(['token']);
@@ -150,7 +163,7 @@ const Message = () => {
     axios.get ('http://localhost:3030/messages', {
   'headers': {
   Authorization: cookies.token,
-}})
+}}) 
 .then(response => {
     setUsers(response.data.data);
   })
